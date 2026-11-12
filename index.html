@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ✏️ НАЗВАНИЕ МАГАЗИНА: поменяйте <title> и description ниже.
+       Само название задается в app.js → CONFIG.brand (подставится в шапку, футер и прелоадер). -->
+  <title>MONO — онлайн магазин</title>
+  <meta name="description" content="MONO — минималистичный онлайн магазин нового поколения. Чёрно-белая стеклянная эстетика, честные цены, быстрая доставка." />
+
+  <!-- Шрифты (Google Fonts; без интернета сработают системные запасные) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================ ПРЕЛОАДЕР ============================ -->
+  <!-- ✏️ Текст ниже перезаписывается из app.js → CONFIG.brand, менять тут не обязательно -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <span class="preloader__mark"></span>
+      <span class="preloader__brand" id="preloaderBrand">MONO</span>
+      <span class="preloader__line"><i></i></span>
+    </div>
+  </div>
+
+  <!-- ============================ ФОНОВОЕ СВЕЧЕНИЕ ============================ -->
+  <div class="bg-glow bg-glow--1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--2" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <!-- ============================ ШАПКА ============================ -->
+  <header class="header">
+    <div class="header__inner container">
+
+      <!-- Кнопка-«бургер» -->
+      <button class="burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Логотип (название меняется в app.js, секция CONFIG) -->
+      <a href="#home" class="logo" id="logoLink" aria-label="На главную">
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span class="logo__text" id="logoText">MONO</span>
+      </a>
+
+      <!-- Поиск -->
+      <div class="search" id="searchBox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Поиск товаров…" autocomplete="off" aria-label="Поиск товаров" />
+        <kbd class="search__kbd" aria-hidden="true">/</kbd>
+        <!-- Живые подсказки -->
+        <div class="search__panel glass" id="searchPanel" hidden></div>
+      </div>
+
+      <!-- Иконки справа: тема / избранное / профиль / корзина -->
+      <div class="header__actions">
+        <button class="icon-btn" id="themeBtn" aria-label="Переключить тему" title="Светлая / тёмная тема">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5"/>
+            <path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+
+        <button class="icon-btn" id="favBtn" aria-label="Избранное">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 20.5s-7.5-4.7-9.3-9.3C1.4 7.9 3.6 4.5 7 4.5c2.2 0 3.9 1.3 5 3 1.1-1.7 2.8-3 5-3 3.4 0 5.6 3.4 4.3 6.7-1.8 4.6-9.3 9.3-9.3 9.3z"/>
+          </svg>
+          <span class="icon-btn__count" id="favCount" hidden>0</span>
+        </button>
+
+        <button class="icon-btn" id="profileBtn" aria-label="Профиль">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.4-3.4 4.2-5 7.5-5s6.1 1.6 7.5 5"/>
+          </svg>
+        </button>
+
+        <button class="icon-btn" id="headerCartBtn" aria-label="Корзина">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>
+            <path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6"/>
+          </svg>
+          <span class="icon-btn__count" id="headerCartCount" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ ВЫДВИЖНОЕ МЕНЮ ============================ -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <nav class="drawer" id="drawer" aria-label="Основное меню">
+    <p class="drawer__title">Меню</p>
+
+    <a href="#home" class="drawer__link" data-nav="home">Главная</a>
+    <a href="#catalog" class="drawer__link" data-nav="catalog">Каталог</a>
+    <a href="#favorites" class="drawer__link" data-nav="favorites">
+      Избранное
+      <span class="drawer__badge" id="drawerFavBadge" hidden>0</span>
+    </a>
+    <a href="#cart" class="drawer__link" data-nav="cart">
+      Корзина
+      <span class="drawer__badge" id="drawerCartBadge" hidden>0</span>
+    </a>
+    <a href="#profile" class="drawer__link" data-nav="profile">Профиль</a>
+
+    <div class="drawer__foot">
+      <!-- ✏️ ВПИШИ: свой слоган в конце меню -->
+      <button class="drawer__sound" id="soundBtn" type="button" aria-label="Включить или выключить звук">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11 5L6.5 8.5H3v7h3.5L11 19z"/>
+          <path class="sound-on-lines" d="M15.5 9.5a4 4 0 0 1 0 5M18 7a7.5 7.5 0 0 1 0 10"/>
+          <path class="sound-off" d="M16 9.8l5 4.4M21 9.8l-5 4.4"/>
+        </svg>
+        <span>Звук: вкл</span>
+      </button>
+      <p class="drawer__hint">SIMPLICITY · MONOCHROME</p>
+    </div>
+  </nav>
+
+  <!-- ============================ ЭКРАНЫ МАГАЗИНА ============================ -->
+  <main>
+    <section id="screen-home" class="screen"></section>
+    <section id="screen-catalog" class="screen" hidden></section>
+    <section id="screen-product" class="screen" hidden></section>
+    <section id="screen-favorites" class="screen" hidden></section>
+    <section id="screen-cart" class="screen" hidden></section>
+    <section id="screen-checkout" class="screen" hidden></section>
+    <section id="screen-success" class="screen" hidden></section>
+    <section id="screen-profile" class="screen" hidden></section>
+  </main>
+
+  <!-- ============================ ФУТЕР ============================ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#home" class="logo logo--footer">
+          <span class="logo__mark" aria-hidden="true"></span>
+          <span class="logo__text">MONO</span>
+        </a>
+        <p class="footer__tag">Минимализм · Качество · Честные цены</p>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__head">Магазин</p>
+        <a href="#catalog">Каталог</a>
+        <a href="#catalog">Новинки</a>
+        <a href="#favorites">Избранное</a>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__head">Покупателям</p>
+        <a href="#home">Доставка и оплата</a>
+        <a href="#home">Возврат 14 дней</a>
+        <a href="#profile">Мои заказы</a>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__head">Контакты</p>
+        <!-- ← ВПИШИ: свои контакты -->
+        <a href="#">+7 000 000-00-00</a>
+        <a href="#">hello@mono.store</a>
+        <a href="#">Telegram · WhatsApp</a>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <!-- ✏️ ВПИШИ: название магазина и год в копирайте -->
+      <span>© 2026 MONO. Все права защищены.</span>
+      <span>Сделано с любовью к деталям</span>
+    </div>
+  </footer>
+
+  <!-- ============================ «Тост» — уведомление ============================ -->
+  <div class="toast glass" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
